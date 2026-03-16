@@ -1,0 +1,19 @@
+<html>
+<head>Home</head>
+<body>
+<h1>Welcome to Simple Blog</h1>
+<p>Check out our latest posts below:</p>
+<ul>
+    {% for category in categories %}
+    <li>
+        <a href="">
+            {{ category.name }}
+        </a>
+        {% for post in category.post_set.all %}
+            <ul>{{ post.title }}</ul>
+        {% endfor %}
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>
