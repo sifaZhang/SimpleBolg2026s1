@@ -1,0 +1,47 @@
+{
+
+  "framework": null,
+
+  "builds": [
+
+    {
+
+      "src": "SimpleBolg2026s1/wsgi.py",
+
+      "use": "@vercel/python",
+
+      "config": { "maxLambdaSize":  "15mb", "runtime":  "python3.9" }
+
+    }
+
+  ],
+
+  "routes": [
+
+    {
+
+      "src": "/(.*)",
+
+      "dest": "note_backend_s12025/wsgi.py",
+
+      "headers": {
+
+        "Access-Control-Allow-Origin": "*",
+
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, DELETE, PUT"
+
+      }
+
+    },
+
+    {
+
+      "src": "/(.*)",
+
+      "dest": "note_backend_s12025/wsgi.py"
+
+    }
+
+  ]
+
+}
