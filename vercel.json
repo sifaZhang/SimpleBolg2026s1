@@ -22,7 +22,7 @@
 
       "src": "/(.*)",
 
-      "dest": "note_backend_s12025/wsgi.py",
+      "dest": "SimpleBolg2026s1/wsgi.py",
 
       "headers": {
 
@@ -38,7 +38,7 @@
 
       "src": "/(.*)",
 
-      "dest": "note_backend_s12025/wsgi.py"
+      "dest": "SimpleBolg2026s1/wsgi.py"
 
     }
 
