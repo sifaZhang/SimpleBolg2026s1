@@ -1,19 +1,26 @@
-<html>
-<head>Home</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}
+    Title: Home
+{% endblock %}
+
+{% block content %}
+
 <h1>Welcome to Simple Blog</h1>
 <p>Check out our latest posts below:</p>
+    <button type="button" class="btn btn-primary">Primary</button>
 <ul>
     {% for category in categories %}
     <li>
-        <a href="">
+        <a href="{% url 'category_detail' category.id %}">
             {{ category.name }}
         </a>
+        <ul>
         {% for post in category.post_set.all %}
-            <ul>{{ post.title }}</ul>
+            <li>{{ post.title }}</li>
         {% endfor %}
+        </ul>
     </li>
     {% endfor %}
 </ul>
-</body>
-</html>
+
+{% endblock %}

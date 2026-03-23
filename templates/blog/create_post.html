@@ -1,0 +1,22 @@
+{%  extends 'base.html' %}
+
+{% block title %}
+    Create Post
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="post_title"
+            placeholder="post title"
+            required>
+    <input type="text" name="post_content"
+            placeholder="post content"
+            required>
+    <input type="text" name="category_id"
+            placeholder="category id"
+            required>
+    <button type="submit">Create</button>
+</form>
+
+{% endblock %}
