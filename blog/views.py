@@ -66,3 +66,19 @@ class PostDeleteView(DeleteView):
     template_name = 'blog/post_delete.html'
     success_url = reverse_lazy('post_list')
 
+
+def register(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = User.objects.create_user(username)
+        user.set_password(password)
+        user.save()
+        return redirect('login')
+    return render(request, 'registration/register.html')
+
+def login(request):
+    return render(request, 'registration/login.html')
+
+def logout(request):
+    return render(request, 'registration/logout.html')
