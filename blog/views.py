@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from blog.forms import CreatePostForm, UpdatePostForm
 from blog.models import Category, Post
 
 
@@ -24,19 +26,19 @@ def create_category(request):
         category = Category.objects.create(name=name)
         return redirect('category_detail', category_id=category.id)
     return render(request, 'blog/create_category.html')
-
-def create_post(request):
-    if request.method == 'POST':
-        title = request.POST['post_title']
-        body = request.POST['post_content']
-        category_id = request.POST['category_id']
-        author_id = request.POST['author_id']
-        author = User.objects.get(id=author_id)
-
-        category = Category.objects.get(id=category_id)
-        post = Post.objects.create(title=title, category=category, body=body, Auther=author)
-        return redirect('post_detail', post_id=post.id)
-    return render(request, 'blog/create_post.html')
+#
+# def create_post(request):
+#     if request.method == 'POST':
+#         title = request.POST['post_title']
+#         body = request.POST['post_content']
+#         category_id = request.POST['category_id']
+#         author_id = request.POST['author_id']
+#         author = User.objects.get(id=author_id)
+#
+#         category = Category.objects.get(id=category_id)
+#         post = Post.objects.create(title=title, category=category, body=body, author=author)
+#         return redirect('post_detail', post_id=post.id)
+#     return render(request, 'blog/create_post.html')
 
 class PostListView(ListView):
     model = Post
@@ -47,4 +49,20 @@ class PostDetailView(DetailView):
     template_name = 'blog/post_detail.html'
 
 
+class PostCreateView(CreateView):
+    model = Post
+    template_name = 'blog/post_create.html'
+    form_class = CreatePostForm
+    success_url = reverse_lazy('post_list')
+
+class PostUpdateView(UpdateView):
+    model = Post
+    template_name = 'blog/post_update.html'
+    form_class = UpdatePostForm
+    success_url = reverse_lazy('post_list')
+
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = 'blog/post_delete.html'
+    success_url = reverse_lazy('post_list')
 
