@@ -7,7 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from blog.forms import CreatePostForm, UpdatePostForm
 from blog.models import Category, Post, UserProfile
 from blog.utils import create_user
-
+import pandas as pd
 
 # Create your views here.
 def index(request):
@@ -88,6 +88,16 @@ def create_users(request):
         fs = FileSystemStorage()
         filename = fs.save(names_file.name, names_file)
         uploaded_file_url = fs.url(filename)
+        uploaded_file_path = fs.path(filename)
+        print(uploaded_file_path)
+        excel_read = pd.read_excel(uploaded_file_path)
+        data = pd.DataFrame(excel_read, columns=['username', 'password', 'first_name', 'last_name', 'email', 'github_url', 'linkedin_url'])
+        print(data)
+        for index, row in data.iterrows():
+            if User.objects.filter(username=row['username']).exists():
+                user = User.objects.get(username=row['username'])
+                user.delete()
+            create_user(row['username'], row['password'], row['first_name'], row['last_name'], row['email'], row['github_url'], row['linkedin_url'])
         return render(request, 'blog/create_user.html', {'uploaded_file_url': uploaded_file_url})
     return render(request, 'blog/create_user.html')
 
