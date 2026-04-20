@@ -1,10 +1,12 @@
 from django.contrib.auth.models import User
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from blog.forms import CreatePostForm, UpdatePostForm
-from blog.models import Category, Post
+from blog.models import Category, Post, UserProfile
+from blog.utils import create_user
 
 
 # Create your views here.
@@ -71,11 +73,23 @@ def register(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = User.objects.create_user(username)
-        user.set_password(password)
-        user.save()
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        github_url = request.POST['github_url']
+        linkedin_url = request.POST['linkedin_url']
+        create_user(username, password, first_name, last_name, email, github_url, linkedin_url)
         return redirect('login')
     return render(request, 'registration/register.html')
+
+def create_users(request):
+    if request.method == 'POST' and request.FILES['names_files']:
+        names_file = request.FILES['names_files']
+        fs = FileSystemStorage()
+        filename = fs.save(names_file.name, names_file)
+        uploaded_file_url = fs.url(filename)
+        return render(request, 'blog/create_user.html', {'uploaded_file_url': uploaded_file_url})
+    return render(request, 'blog/create_user.html')
 
 def login(request):
     return render(request, 'registration/login.html')

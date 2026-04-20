@@ -2,7 +2,7 @@ from django.contrib.auth import login, logout
 from django.urls import path, include
 
 from blog.views import index, category_detail, post_detail, create_category, PostListView, PostDetailView, \
-    PostCreateView, PostUpdateView, PostDeleteView, register
+    PostCreateView, PostUpdateView, PostDeleteView, register, create_users
 
 urlpatterns = [
     path('', index, name='index'),
@@ -25,6 +25,8 @@ urlpatterns = [
     path('register/', register, name='register'),
 
     path('accounts/', include('django.contrib.auth.urls')),
+
+    path('create_users/', create_users, name='create_users'),
 ]
 
 
