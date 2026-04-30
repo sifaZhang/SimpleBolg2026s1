@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Category(models.Model):
@@ -13,7 +14,7 @@ class Post(models.Model):
     header_image = models. ImageField(null=True, blank=True, upload_to='images/')
     title_tag = models.CharField(max_length=255)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = models.TextField()
+    body = RichTextField()
     post_date = models.DateField(auto_now_add=True)
     snippet = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -32,3 +33,9 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+
+class Comments(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    comment_body = models.TextField()
+    comment_time = models.DateTimeField(auto_now_add=True)
